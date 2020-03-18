@@ -3,7 +3,7 @@ name: java-openliberty-stack
 projects:
   - name: default   
     git:
-      location: "https://github.com/groeges/nodejs-express-template-default.git" 
+      location: "https://github.com/groeges/java-openliberty-template-default.git" 
   #- name: simple   
   #    git:
   #      location: "git@github.com:appsody/stacks.git" 
