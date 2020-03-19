@@ -48,8 +48,6 @@ projects:
           containerPath: /project/user-app
         - name: maven
           containerPath: /mvn/repository
-      # This is not currently part of the devfile schema but may be needed
-      runAs: java_user:java_group   
 commands:
 #  - exec:
 #      # using the script https://github.com/appsody/stacks/blob/master/incubator/java-openliberty/image/project/run-stack.sh which should be included in the image?
@@ -63,16 +61,24 @@ commands:
 #        name: initLocal
 #        isDefault: true
   - exec:
+      id: init-deps
       name: init image dependancies
       component: java-openliberty-build
       commandLine: /project/bin/init-stack.sh
-      group:
-        name: init
-        isDefault: true
-  - exec:
-      name: prep
+      runAsUser: root # This is not currently part of the devfile schema but may be needed
+ - exec:
+      id: stack-prep
+      name: stack-prep
       component: java-openliberty-build
       commandLine: /project/bin/run-stack.sh prep
+      runAsUser: java_user # This is not currently part of the devfile schema but may be needed
+  - composite:
+      id: setupContainer
+      label: Setup container (initialise dependancies and prepare stack)
+      commands:
+        - init-deps
+        - stack-prep
+      parallel: false
       group:
         name: init
         isDefault: true
@@ -84,6 +90,7 @@ commands:
       group:
         name: run
         isDefault: true
+      runAsUser: java_user # This is not currently part of the devfile schema but may be needed
   - exec:
       alias: run the app (debugging enabled)
       component: java-openliberty-run
@@ -92,6 +99,7 @@ commands:
       group:
         name: debug
         isDefault: true
+      runAsUser: java_user # This is not currently part of the devfile schema but may be needed
   - exec:
       alias: run the app test suite
       component: java-openliberty-run
@@ -100,6 +108,7 @@ commands:
       group:
         name: test
         isDefault: true
+      runAsUser: java_user # This is not currently part of the devfile schema but may be needed
 #  - exec:
 #      alias: stop the app
 #      component: java-openliberty-project
