@@ -1,0 +1,5 @@
+displayName: Java Open Liberty
+description: This is a custom stack for Java Open Liberty
+tags: ["Java", "maven", "ubi"]
+icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
+globalMemoryLimit: 1686Mi 
