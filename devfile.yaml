@@ -27,8 +27,6 @@ projects:
       repoMappings:
         - srcPath: "/project"
           destPath: "/project" 
-      # This is not currently part of the devfile schema but may be needed
-      runAs: java_user:java_group   
   - container:
       alias: java-openliberty-run
       name: java-openliberty-run
