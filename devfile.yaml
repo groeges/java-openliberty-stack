@@ -11,7 +11,6 @@ projects:
   #      sparseCheckoutDir: "incubator/java-openliberty/templates/simple"
   components:
   - container:
-      alias: java-openliberty-build
       name: java-openliberty-build
       image: kabanero/ubi8-maven:0.3.1 
       memoryLimit: 512Mi
@@ -19,16 +18,15 @@ projects:
       args: [ '-f', '/dev/null']
       mountSources: true
       sourceMapping: "/project/user-app"
-      volumes:
+      volumeMount:
         - name: source
-          containerPath: /project/user-app
+          path: /project/user-app
         - name: maven
-          containerPath: /mvn/repository
+          path: /mvn/repository
       repoMappings:
         - srcPath: "/project"
           destPath: "/project" 
   - container:
-      alias: java-openliberty-run
       name: java-openliberty-run
       image: kabanero/ubi8-maven:0.3.1
       memoryLimit: 512Mi
@@ -41,23 +39,18 @@ projects:
               scheme: http
           targetPort: 9080
       mountSources: false
-      volumes:
+      volumeMount:
         - name: source
-          containerPath: /project/user-app
+          path: /project/user-app
         - name: maven
-          containerPath: /mvn/repository
+          path: /mvn/repository
+  - volume:
+    name: source
+    size: 1Gi
+  - volume:
+    name: maven
+    size: 5Gi  
 commands:
-#  - exec:
-#      # using the script https://github.com/appsody/stacks/blob/master/incubator/java-openliberty/image/project/run-stack.sh which should be included in the image?
-#      name: setup local workspace
-#      os:
-#        - type: linux
-#          commandLine: /.appsody-init.sh
-#        - type: windows
-#          commandLine: /.appsody-init.bat
-#      group:
-#        name: initLocal
-#        isDefault: true
   - exec:
       id: init-deps
       name: init image dependancies
@@ -72,7 +65,6 @@ commands:
       runAsUser: java_user # This is not currently part of the devfile schema but may be needed
   - composite:
       id: setupContainer
-      label: Setup container (initialise dependancies and prepare stack)
       commands:
         - init-deps
         - stack-prep
@@ -107,14 +99,3 @@ commands:
         name: test
         isDefault: true
       runAsUser: java_user # This is not currently part of the devfile schema but may be needed
-#  - exec:
-#      alias: stop the app
-#      component: java-openliberty-project
-#      commandLine: >-
-#          node_server_pids=$(pgrep -fx '.*nodemon (--inspect )?app.js' | tr "\\n" " ") &&
-#          echo "Stopping node server with PIDs: ${node_server_pids}" && 
-#          kill -15 ${node_server_pids} &>/dev/null && echo 'Done.'
-#      group:
-#        name: run
-#        isDefault: true
-    
