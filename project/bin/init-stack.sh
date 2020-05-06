@@ -14,9 +14,9 @@ if [ $UID -eq 0 ]; then
   # because exec replaces running process with the new one
 fi
 
-/project/util/check_version build
+./project/util/check_version build
 
-cd /project
+cd ./project
 
 mkdir -p /mvn/repository
 mvn -B -Dmaven.repo.local=/mvn/repository -N io.takari:maven:wrapper -Dmaven=$(mvn help:evaluate -Dexpression=maven.version -q -DforceStdout)
