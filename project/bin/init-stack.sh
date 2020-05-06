@@ -8,6 +8,7 @@ if [ $UID -eq 0 ]; then
   chown -R java_user:java_group /mvn
   mkdir -p /opt/ol
   chown -R java_user:java_group /opt
+  chown -R java_user:java_group ./project
 
   exec su "java_user" "$0" -- "$@"
   # nothing will be executed beyond that line,
