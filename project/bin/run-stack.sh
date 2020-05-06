@@ -27,6 +27,36 @@ case $ACTION in
             set +x
         fi
         ;;
+    odobld)
+        echo "AJM: DISABLE_RUN_CMD_ODO = $DISABLE_RUN_CMD_ODO"
+        if [ ! -z $NOOP_APPSODY_DEV ]
+        then
+            echo appsody run/debug/test not supported when .appsody-nodev detected.
+            exit 0
+        else
+            echo "before bld cmd"
+            set -x
+            #touch ./.disable-run-cmd
+            mvn -B -Plocal-dev -DappsDirectory=apps -Dmaven.repo.local=/mvn/repository liberty:create pre-integration-test liberty:install-feature
+            set +x
+            echo "AJM: after bld cmd"
+         fi
+         ;;
+    odorun)
+        echo "AJM: DISABLE_RUN_CMD_ODO = $DISABLE_RUN_CMD_ODO"
+        if [ ! -z $NOOP_APPSODY_DEV ]
+        then
+            echo appsody run/debug/test not supported when .appsody-nodev detected.
+            exit 0
+        else
+            echo "before run cmd"
+            set -x
+            #touch ./.disable-run-cmd
+            mvn -B -Plocal-dev -DappsDirectory=apps -Dmaven.repo.local=/mvn/repository liberty:start liberty:deploy
+            set +x
+            echo "AJM: after run cmd"
+        fi
+        ;;
     debug)
         if [ ! -z $NOOP_APPSODY_DEV ]
         then
