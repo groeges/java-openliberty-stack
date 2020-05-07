@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo "ODO_STACK_DIR='$ODO_STACK_DIR'"
+echo "ODO_PROJECT_DIR='$ODO_PROJECT_DIR'"
+
 if [ $UID -eq 0 ]; then
   
   groupadd --gid 1000 java_group
