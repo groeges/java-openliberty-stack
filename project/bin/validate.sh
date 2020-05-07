@@ -30,16 +30,16 @@ if [ "$1" == "dev" ]; then
 fi
 
 # Get parent pom information
-a_groupId=$(xmlstarlet sel -T -N x="http://maven.apache.org/POM/4.0.0" -t -v "/x:project/x:groupId" /project/pom.xml)
-a_artifactId=$(xmlstarlet sel -T -N x="http://maven.apache.org/POM/4.0.0" -t -v "/x:project/x:artifactId" /project/pom.xml)
-a_version=$(xmlstarlet sel -T -N x="http://maven.apache.org/POM/4.0.0" -t -v "/x:project/x:version" /project/pom.xml)
+a_groupId=$(xmlstarlet sel -T -N x="http://maven.apache.org/POM/4.0.0" -t -v "/x:project/x:groupId" ${ODO_STACK_DIR}/project/pom.xml)
+a_artifactId=$(xmlstarlet sel -T -N x="http://maven.apache.org/POM/4.0.0" -t -v "/x:project/x:artifactId" ${ODO_STACK_DIR}/project/pom.xml)
+a_version=$(xmlstarlet sel -T -N x="http://maven.apache.org/POM/4.0.0" -t -v "/x:project/x:version" ${ODO_STACK_DIR}/project/pom.xml)
 p_groupId=$(xmlstarlet sel -T -N x="http://maven.apache.org/POM/4.0.0" -t -v "/x:project/x:parent/x:groupId" pom.xml)
 p_artifactId=$(xmlstarlet sel -T -N x="http://maven.apache.org/POM/4.0.0" -t -v "/x:project/x:parent/x:artifactId" pom.xml)
 p_version_range=$(xmlstarlet sel -T -N x="http://maven.apache.org/POM/4.0.0" -t -v "/x:project/x:parent/x:version" pom.xml)
 
 # Install parent pom
 echo "Installing parent ${a_groupId}:${a_artifactId}:${a_version}"
-mvn install $M2_LOCAL_REPO -Denforcer.skip=true -f ../pom.xml
+mvn install $M2_LOCAL_REPO -Denforcer.skip=true -f ${ODO_STACK_DIR}/project/pom.xml
 
 
 
@@ -57,7 +57,7 @@ if [ "${p_groupId}" != "${a_groupId}" ] || [ "${p_artifactId}" != "${a_artifactI
 fi
 
 # Check parent version
-if ! /project/util/check_version contains "$p_version_range" "$a_version";  then
+if ! ${ODO_STACK_DIR}/project/util/check_version contains "$p_version_range" "$a_version";  then
   echo "STACK VALIDATION ERROR: Version mismatch
 
 The version of the appsody stack '${a_version}' does not match the

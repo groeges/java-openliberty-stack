@@ -14,7 +14,7 @@ fi
 
 case $ACTION in
     prep)
-        ./project/bin/validate.sh dev
+        ${ODO_STACK_DIR}/project/bin/validate.sh dev
         ;;
     run)
         if [ ! -z $NOOP_APPSODY_DEV ]

@@ -8,20 +8,20 @@ if [ $UID -eq 0 ]; then
   chown -R java_user:java_group /mvn
   mkdir -p /opt/ol
   chown -R java_user:java_group /opt
-  chown -R java_user:java_group ./project
+  chown -R java_user:java_group ${ODO_STACK_DIR}/project
 
   exec su "java_user" "$0" -- "$@"
   # nothing will be executed beyond that line,
   # because exec replaces running process with the new one
 fi
 
-./project/util/check_version build
+${ODO_STACK_DIR}/project/util/check_version build
 
-cd ./project
+cd ${ODO_STACK_DIR}/project
 
 mkdir -p /mvn/repository
 mvn -B -Dmaven.repo.local=/mvn/repository -N io.takari:maven:wrapper -Dmaven=$(mvn help:evaluate -Dexpression=maven.version -q -DforceStdout)
 mvn -B -Pstack-image-package -Dmaven.repo.local=/mvn/repository liberty:install-server install dependency:go-offline
 chmod -R 777 /opt/ol 
 
-#cd /project/user-app
+cd ${ODO_PROJECT_DIR}
