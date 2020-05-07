@@ -33,15 +33,13 @@ fi
 a_groupId=$(xmlstarlet sel -T -N x="http://maven.apache.org/POM/4.0.0" -t -v "/x:project/x:groupId" ${ODO_STACK_DIR}/project/pom.xml)
 a_artifactId=$(xmlstarlet sel -T -N x="http://maven.apache.org/POM/4.0.0" -t -v "/x:project/x:artifactId" ${ODO_STACK_DIR}/project/pom.xml)
 a_version=$(xmlstarlet sel -T -N x="http://maven.apache.org/POM/4.0.0" -t -v "/x:project/x:version" ${ODO_STACK_DIR}/project/pom.xml)
-p_groupId=$(xmlstarlet sel -T -N x="http://maven.apache.org/POM/4.0.0" -t -v "/x:project/x:parent/x:groupId" pom.xml)
-p_artifactId=$(xmlstarlet sel -T -N x="http://maven.apache.org/POM/4.0.0" -t -v "/x:project/x:parent/x:artifactId" pom.xml)
-p_version_range=$(xmlstarlet sel -T -N x="http://maven.apache.org/POM/4.0.0" -t -v "/x:project/x:parent/x:version" pom.xml)
+p_groupId=$(xmlstarlet sel -T -N x="http://maven.apache.org/POM/4.0.0" -t -v "/x:project/x:parent/x:groupId" ${ODO_PROJECT_DIR}/pom.xml)
+p_artifactId=$(xmlstarlet sel -T -N x="http://maven.apache.org/POM/4.0.0" -t -v "/x:project/x:parent/x:artifactId" ${ODO_PROJECT_DIR}/pom.xml)
+p_version_range=$(xmlstarlet sel -T -N x="http://maven.apache.org/POM/4.0.0" -t -v "/x:project/x:parent/x:version" ${ODO_PROJECT_DIR}/pom.xml)
 
 # Install parent pom
 echo "Installing parent ${a_groupId}:${a_artifactId}:${a_version}"
 mvn install $M2_LOCAL_REPO -Denforcer.skip=true -f ${ODO_STACK_DIR}/project/pom.xml
-
-
 
 # Check child pom for required parent project
 if [ "${p_groupId}" != "${a_groupId}" ] || [ "${p_artifactId}" != "${a_artifactId}" ]; then
