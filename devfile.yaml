@@ -35,32 +35,40 @@
       memoryLimit: 768Mi
       command: ['tail']
       args: [ '-f', '/dev/null']
+      endpoints:
+        - name: '9080/tcp'
+          port: 9080
       mountSources: true
       volumes:
         - name: openlibertypvc
           containerPath: /data
         - name: stack
           containerPath: /stack
-    -
-      type: dockerimage
-      image: ajymau/openliberty-appsody-build-env:latest
-      alias: runtime
-      memoryLimit: 768Mi
-      command: ['tail']
-      args: [ '-f', '/dev/null']
-      endpoints:
-        - name: '8080/tcp'
-          port: 8080
-      mountSources: false
-      volumes:
-        - name: openlibertypvc
-          containerPath: /data
+      env:
+        - name: ODO_STACK_DIR
+          value: /stack
+        - name: ODO_PROJECT_DIR
+          value: /projects/openlibertyproject
+#    -
+#      type: dockerimage
+#      image: ajymau/openliberty-appsody-build-env:latest
+#      alias: runtime
+#      memoryLimit: 768Mi
+#      command: ['tail']
+#      args: [ '-f', '/dev/null']
+#      #endpoints:
+#      #  - name: '9080/tcp'
+#      #    port: 9080
+#      mountSources: false
+#      volumes:
+#        - name: openlibertypvc
+#          containerPath: /data
   commands:
     - name: devInit
       actions:
         - type: exec
           component: tools
-          command: "ODO_STACK_DIR=/stack ODO_PROJECT_DIR=/projects/openlibertyproject /stack/project/bin/init-stack.sh && cd /projects/openlibertyproject && /stack/project/bin/run-stack.sh prep"
+          command: "/stack/project/bin/init-stack.sh && /stack/project/bin/run-stack.sh prep"
           workdir: /stack/project
     - name: devBuild
       actions:
@@ -70,10 +78,9 @@
           workdir: /projects/openlibertyproject
     - name: devRun
       actions:
-        - workdir: /projects/openlibertyproject
-          type: exec
-          command: /stack/project/run-stack.sh odorun
-          component: runtime
+        - type: exec
+          component: tools
+          command: "/stack/project/bin/run-stack.sh odorun"
+          workdir: /projects/openlibertyproject
       attributes:
         restart: "false"
-      
