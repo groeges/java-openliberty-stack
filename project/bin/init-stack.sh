@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "ODO_STACK_DIR='$ODO_STACK_DIR'"
-echo "ODO_PROJECT_DIR='$ODO_PROJECT_DIR'"
+echo "CHE_PROJECTS_ROOT='$CHE_PROJECTS_ROOT'"
 
 if [ $UID -eq 0 ]; then
   
@@ -27,4 +27,4 @@ mvn -B -Dmaven.repo.local=/mvn/repository -N io.takari:maven:wrapper -Dmaven=$(m
 mvn -B -Pstack-image-package -Dmaven.repo.local=/mvn/repository liberty:install-server install dependency:go-offline
 chmod -R 777 /opt/ol 
 
-cd ${ODO_PROJECT_DIR}
+cd ${CHE_PROJECTS_ROOT}

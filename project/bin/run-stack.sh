@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "ODO_STACK_DIR='$ODO_STACK_DIR'"
-echo "ODO_PROJECT_DIR='$ODO_PROJECT_DIR'"
+echo "CHE_PROJECTS_ROOT='$CHE_PROJECTS_ROOT'"
 
 if [ $# -eq 0 ]; then
   echo "ERROR: no argument supplied to script"

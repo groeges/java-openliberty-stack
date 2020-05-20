@@ -33,9 +33,9 @@ fi
 a_groupId=$(xmlstarlet sel -T -N x="http://maven.apache.org/POM/4.0.0" -t -v "/x:project/x:groupId" ${ODO_STACK_DIR}/project/pom.xml)
 a_artifactId=$(xmlstarlet sel -T -N x="http://maven.apache.org/POM/4.0.0" -t -v "/x:project/x:artifactId" ${ODO_STACK_DIR}/project/pom.xml)
 a_version=$(xmlstarlet sel -T -N x="http://maven.apache.org/POM/4.0.0" -t -v "/x:project/x:version" ${ODO_STACK_DIR}/project/pom.xml)
-p_groupId=$(xmlstarlet sel -T -N x="http://maven.apache.org/POM/4.0.0" -t -v "/x:project/x:parent/x:groupId" ${ODO_PROJECT_DIR}/pom.xml)
-p_artifactId=$(xmlstarlet sel -T -N x="http://maven.apache.org/POM/4.0.0" -t -v "/x:project/x:parent/x:artifactId" ${ODO_PROJECT_DIR}/pom.xml)
-p_version_range=$(xmlstarlet sel -T -N x="http://maven.apache.org/POM/4.0.0" -t -v "/x:project/x:parent/x:version" ${ODO_PROJECT_DIR}/pom.xml)
+p_groupId=$(xmlstarlet sel -T -N x="http://maven.apache.org/POM/4.0.0" -t -v "/x:project/x:parent/x:groupId" ${CHE_PROJECTS_ROOT}/pom.xml)
+p_artifactId=$(xmlstarlet sel -T -N x="http://maven.apache.org/POM/4.0.0" -t -v "/x:project/x:parent/x:artifactId" ${CHE_PROJECTS_ROOT}/pom.xml)
+p_version_range=$(xmlstarlet sel -T -N x="http://maven.apache.org/POM/4.0.0" -t -v "/x:project/x:parent/x:version" ${CHE_PROJECTS_ROOT}/pom.xml)
 
 # Install parent pom
 echo "Installing parent ${a_groupId}:${a_artifactId}:${a_version}"
@@ -70,10 +70,10 @@ fi
 # Check that the child pom has not overridden the Open Liberty version
 
 # This is far from the only way from configuring an Open Liberty installation.  The idea is to stop a naive copy/paste/tweak user, not to stop a user determined to override and willing to read the doc.
-child_ol_version_property=$(xmlstarlet sel -T -N x="http://maven.apache.org/POM/4.0.0" -t -v "/x:project/x:properties/x:version.openliberty-runtime" ${ODO_PROJECT_DIR}/pom.xml)
-child_ol_groupId=$(xmlstarlet sel -T -N x="http://maven.apache.org/POM/4.0.0" -t -v "/x:project/x:build/x:plugins/x:plugin[x:artifactId='liberty-maven-plugin']/x:configuration/x:runtimeArtifact/x:groupId" ${ODO_PROJECT_DIR}/pom.xml)
-child_ol_artifactId=$(xmlstarlet sel -T -N x="http://maven.apache.org/POM/4.0.0" -t -v "/x:project/x:build/x:plugins/x:plugin[x:artifactId='liberty-maven-plugin']/x:configuration/x:runtimeArtifact/x:artifactId" ${ODO_PROJECT_DIR}/pom.xml)
-child_ol_version=$(xmlstarlet sel -T -N x="http://maven.apache.org/POM/4.0.0" -t -v "/x:project/x:build/x:plugins/x:plugin[x:artifactId='liberty-maven-plugin']/x:configuration/x:runtimeArtifact/x:version" ${ODO_PROJECT_DIR}/pom.xml)
+child_ol_version_property=$(xmlstarlet sel -T -N x="http://maven.apache.org/POM/4.0.0" -t -v "/x:project/x:properties/x:version.openliberty-runtime" ${CHE_PROJECTS_ROOT}/pom.xml)
+child_ol_groupId=$(xmlstarlet sel -T -N x="http://maven.apache.org/POM/4.0.0" -t -v "/x:project/x:build/x:plugins/x:plugin[x:artifactId='liberty-maven-plugin']/x:configuration/x:runtimeArtifact/x:groupId" ${CHE_PROJECTS_ROOT}/pom.xml)
+child_ol_artifactId=$(xmlstarlet sel -T -N x="http://maven.apache.org/POM/4.0.0" -t -v "/x:project/x:build/x:plugins/x:plugin[x:artifactId='liberty-maven-plugin']/x:configuration/x:runtimeArtifact/x:artifactId" ${CHE_PROJECTS_ROOT}/pom.xml)
+child_ol_version=$(xmlstarlet sel -T -N x="http://maven.apache.org/POM/4.0.0" -t -v "/x:project/x:build/x:plugins/x:plugin[x:artifactId='liberty-maven-plugin']/x:configuration/x:runtimeArtifact/x:version" ${CHE_PROJECTS_ROOT}/pom.xml)
 
 if ! [[
         ( "${child_ol_groupId}" == "")
