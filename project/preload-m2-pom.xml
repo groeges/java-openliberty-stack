@@ -107,7 +107,7 @@
                         <version>19.0.0.12</version>
                         <type>zip</type>
                     </runtimeArtifact>
-                    <runtimeInstallDirectory>/projects/openlibertyproject/target/liberty</runtimeInstallDirectory>
+                    <runtimeInstallDirectory>${CHE_PROJECTS_ROOT}/target/liberty</runtimeInstallDirectory>
                 </configuration>
             </plugin>
             <!-- Plugin to run unit tests -->

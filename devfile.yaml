@@ -4,10 +4,20 @@
     generateName: java-openliberty
   projects:
     -
-      name: openlibertyproject
+      name: default
       source:
         type: git
-        location: "https://github.com/groeges/java-openliberty-template-default.git" 
+        location: "https://github.com/groeges/java-openliberty-default.git" 
+    -
+      name: simple
+      source:
+        type: git
+        location: "https://github.com/groeges/java-openliberty-simple.git" 
+    -
+      name: kafka
+      source:
+        type: git
+        location: "https://github.com/groeges/java-openliberty-kafka.git" 
   components:
     -
       type: chePlugin
@@ -40,8 +50,6 @@
           port: 9080
       mountSources: true
       volumes:
-        - name: openlibertypvc
-          containerPath: /data
         - name: stack
           containerPath: /stack
       env:
@@ -52,7 +60,7 @@
       actions:
         - type: exec
           component: tools
-          command: "/stack/project/bin/init-stack.sh && /stack/project/bin/run-stack.sh prep"
+          command: "sleep 5 && /stack/project/bin/init-stack.sh && /stack/project/bin/run-stack.sh prep"
           workdir: /stack/project
     - name: devBuild
       actions:
